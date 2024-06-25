@@ -51,13 +51,25 @@ export default function Home() {
     }
   }
 
-  const handleCompleteTask = async () => {
-
+  const handleCompleteTask = async (id: string) => {
+    try {
+      const response = await fetch(`/api/task/complete/${id}`, {
+        method: "PATCH" // j'utilise patch et pas put car je ne modifie qu'un seul champ de l'objet
+      })
+      if (response.ok) {
+        await fetchTasks();
+      }
+      else {
+        console.log("error");
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   const handleDeleteTask = async (id: string) => {
     try {
-      console.log('Delete button clicked');
       const response = await fetch(`/api/task/delete/${id}`, {
         method: "DELETE"
       })
@@ -84,7 +96,7 @@ export default function Home() {
       <Divider />
       {isLoading ? (<LoadingSpinner className="m-auto" />)
         :
-        (<ul>
+        (<ol>
           {allTasks.length > 0 ? allTasks.map((individualTask: ITask) => (
             <Task
               key={individualTask._id}
@@ -95,7 +107,7 @@ export default function Home() {
           )) : (
             <NoTask />
           )}
-        </ul>)
+        </ol>)
       }
     </>
   );

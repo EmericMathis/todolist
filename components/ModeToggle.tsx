@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import { LoadingSpinner } from './ui/spinner';
 
 export function ThemeToggle() {
     const { setTheme, theme } = useTheme();
@@ -18,8 +19,6 @@ export function ThemeToggle() {
         <DarkModeSwitch
             size={25}
             checked={currentTheme === "dark"}
-            sunColor="black"
-            moonColor="white"
             onChange={() => {
                 if (isMounted) {
                     setTheme(currentTheme === "light" ? "dark" : "light");

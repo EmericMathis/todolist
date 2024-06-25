@@ -41,7 +41,7 @@ export default function Home() {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("/api/task/all");
+      const response = await fetch("/api/task/all", { cache: "no-store" });
       const data = await response.json();
       setAllTasks(data);
       setIsLoading(false);
@@ -54,7 +54,8 @@ export default function Home() {
   const handleCompleteTask = async (id: string) => {
     try {
       const response = await fetch(`/api/task/complete/${id}`, {
-        method: "PATCH" // j'utilise patch et pas put car je ne modifie qu'un seul champ de l'objet
+        method: "PATCH",
+        cache: "no-store"
       })
       if (response.ok) {
         await fetchTasks();
@@ -71,7 +72,8 @@ export default function Home() {
   const handleDeleteTask = async (id: string) => {
     try {
       const response = await fetch(`/api/task/delete/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        cache: "no-store"
       })
       if (response.ok) {
         setAllTasks((prevTasks) => prevTasks.filter((task: ITask) => task._id !== id))
@@ -96,7 +98,7 @@ export default function Home() {
       <Divider />
       {isLoading ? (<LoadingSpinner className="m-auto" />)
         :
-        (<ol>
+        (<ul>
           {allTasks.length > 0 ? allTasks.map((individualTask: ITask) => (
             <Task
               key={individualTask._id}
@@ -107,7 +109,7 @@ export default function Home() {
           )) : (
             <NoTask />
           )}
-        </ol>)
+        </ul>)
       }
     </>
   );

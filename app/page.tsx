@@ -21,9 +21,8 @@ export default function Home() {
       // ici j'envoie la requête POST pour créer une nouvelle tâche à l'url /api/task/new de mon serveur Next
       const response = await fetch("/api/task/new", {
         method: "POST",
-        body: JSON.stringify({  // je convertis l'objet en JSON pour l'envoyer dans le body de la requête
-          task: task
-        }),
+        body: JSON.stringify({ task: task}),
+        cache: "no-store",
       })
       if (response.ok) {
         setTask("") // je réinitialise le champ de saisie après avoir créé la tâche

@@ -2,7 +2,10 @@
 
 import AddTask from "@/components/AddTask";
 import Header from "@/components/Header";
+import NoTask from "@/components/NoTask";
+import { Divider } from "@/components/ui/divider";
 import { LoadingSpinner } from "@/components/ui/spinner";
+import Task from "@/components/ui/task";
 import { ITask } from "@/types";
 import { set } from "mongoose";
 import { useState, useEffect } from "react";
@@ -49,6 +52,14 @@ export default function Home() {
     }
   }
 
+  const handleCompleteTask = async () => {
+
+  }
+
+  const handleDeleteTask = async () => {
+
+  }
+
   useEffect(() => {
     fetchTasks();
   }, [])
@@ -57,13 +68,19 @@ export default function Home() {
     <>
       <Header />
       <AddTask task={task} setTask={setTask} handleCreateTask={handleCreateTask} />
+      <Divider />
       {isLoading ? (<LoadingSpinner />)
         :
         (<ul>
           {allTasks.length > 0 ? allTasks.map((individualTask: ITask) => (
-            <li key={individualTask._id}>{individualTask.task}</li>
+            <Task
+              key={individualTask._id}
+              individualTask={individualTask}
+              handleCompleteTask={handleCompleteTask}
+              handleDeleteTask={handleDeleteTask}
+            />
           )) : (
-            <p>No tasks</p>
+            <NoTask />
           )}
         </ul>)
       }

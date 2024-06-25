@@ -15,3 +15,9 @@ export interface TaskProps {
     handleCompleteTask: (id: string) => void;
     handleDeleteTask: (id: string) => void;
 }
+
+export interface IDeleteTaskRequestParams {
+    params: {
+        id: string;
+    }
+}

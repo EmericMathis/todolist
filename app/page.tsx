@@ -7,7 +7,6 @@ import { Divider } from "@/components/ui/divider";
 import { LoadingSpinner } from "@/components/ui/spinner";
 import Task from "@/components/ui/task";
 import { ITask } from "@/types";
-import { set } from "mongoose";
 import { useState, useEffect } from "react";
 
 
@@ -56,8 +55,22 @@ export default function Home() {
 
   }
 
-  const handleDeleteTask = async () => {
-
+  const handleDeleteTask = async (id: string) => {
+    try {
+      console.log('Delete button clicked');
+      const response = await fetch(`/api/task/delete/${id}`, {
+        method: "DELETE"
+      })
+      if (response.ok) {
+        setAllTasks((prevTasks) => prevTasks.filter((task: ITask) => task._id !== id))
+      }
+      else {
+        console.log("error");
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -69,7 +82,7 @@ export default function Home() {
       <Header />
       <AddTask task={task} setTask={setTask} handleCreateTask={handleCreateTask} />
       <Divider />
-      {isLoading ? (<LoadingSpinner />)
+      {isLoading ? (<LoadingSpinner className="m-auto" />)
         :
         (<ul>
           {allTasks.length > 0 ? allTasks.map((individualTask: ITask) => (

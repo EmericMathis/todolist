@@ -9,10 +9,19 @@ export const GET = async(request: Request) => {
 
         const tasks = await Task.find();
 
-        return NextResponse.json(tasks, { status: 200 });
+        // Créer une réponse avec les données
+        const response = NextResponse.json(tasks, { status: 200 });
+        // Définir l'en-tête Cache-Control pour éviter la mise en cache
+        response.headers.set('Cache-Control', 'no-store');
+        
+        return response;
     }
     catch (error) {
         console.log(error);
-        return NextResponse.json("Failed to fetch all tasks" , { status: 500 });
+        // Gérer l'erreur et désactiver la mise en cache pour les réponses d'erreur également
+        const response = NextResponse.json("Failed to fetch all tasks" , { status: 500 });
+        response.headers.set('Cache-Control', 'no-store');
+        
+        return response;
     }
 }

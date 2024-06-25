@@ -4,7 +4,6 @@ let isConnected: boolean = false;
 
 export const connectToDB = async () => {
     mongoose.set("strictQuery", true); // prévient les erreurs de requête en activant les requêtes strictes
-    console.log(process.env.MONGODB_URI)
     if (isConnected) {
         console.log("MongoDB is already connected");
         return;
